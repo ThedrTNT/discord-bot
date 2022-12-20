@@ -21,12 +21,18 @@ async def on_ready():
     print('------')
 
 @bot.event
-async def on_message(message):    
+async def on_message(message): 
+    """Returns a random response if the bot is mentioned"""   
     if message.author.bot == False and bot.user.mentioned_in(message):
         response = random.choice(responses)
         await message.channel.send(response)
     else:
         await bot.process_commands(message)
+
+@bot.command()
+async def github(ctx):
+    """Sends the current github repo for this bot."""
+    await ctx.send('The Github repository for this bot can be found at https://github.com/ThedrTNT/docbot')
 
 @bot.command()
 async def add(ctx, left: int, right: int):
@@ -52,6 +58,7 @@ async def choose(ctx, *choices: str):
 
 @bot.command()
 async def addresponse(ctx, *, text: str):
+    """Allows adding additional responses for when the bot is mentioned"""
     responses.append(text)
     await ctx.send(f'Added new response: {text}')
     print(f'Added new response: {text}')
